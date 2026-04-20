@@ -34,9 +34,8 @@ def build_equity_schedule(df, forecast):
         + forecast.loc[year, "SBC"]
         + forecast.loc[year, "EquityAdjustment"]
         )
-
-      equity_list.append(closing_equity)
-      opening_equity = closing_equity
+    equity_list.append(closing_equity)
+    opening_equity = closing_equity
 
   forecast["Equity"] = equity_list
 
