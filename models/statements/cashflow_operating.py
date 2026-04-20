@@ -30,7 +30,7 @@ def build_operating_cashflow(df, forecast):
   forecast["AmortizationOfIntangibles"] = amort_list
   forecast["GoodwillAndOtherIntangibleAssets"] = gw_list
 
-  ddt_ratio = (df["DeferredTax"] / df["Depreciation"]).replace([np.inf, -np.inf], np.nan).dropna().median()
+  dt_ratio = (df["DeferredTax"] / df["Depreciation"]).replace([np.inf, -np.inf], np.nan).dropna().median()
   forecast["DeferredTax"] = forecast["Depreciation"] * dt_ratio
   
   onc_ratio = (df["OtherNonCashItems"] / df["NetIncome"]).replace([np.inf, -np.inf], np.nan).dropna().median()
