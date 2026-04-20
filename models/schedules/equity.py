@@ -18,7 +18,7 @@ def build_equity_schedule(df, forecast):
 	
 	#EquityAdjustment captures residual movements such as OCI, FX translation, and other comprehensive income not explicitly modeled.
   df["EquityAdjustment"] = (df["Equity"].diff() - (df["NetIncome"] + df["Dividends"] + df["ShareIssued"] + df["BuyBacks"] + df["SBC"]))
-	eadj_ratio = (df["EquityAdjustment"] / df["Revenue"]).mean()
+  eadj_ratio = (df["EquityAdjustment"] / df["Revenue"]).mean()
   forecast["EquityAdjustment"] = forecast["Revenue"] * eadj_ratio
 
   equity_list = []
