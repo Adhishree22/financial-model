@@ -25,6 +25,7 @@ def build_equity_schedule(df, forecast):
   opening_equity = df["Equity"].iloc[-1]
 
   for year in forecast.index:
+    
     closing_equity = (
         opening_equity
         + forecast.loc[year, "NetIncome"]
@@ -34,6 +35,7 @@ def build_equity_schedule(df, forecast):
         + forecast.loc[year, "SBC"]
         + forecast.loc[year, "EquityAdjustment"]
         )
+    
     equity_list.append(closing_equity)
     opening_equity = closing_equity
 
