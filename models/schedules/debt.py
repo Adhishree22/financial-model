@@ -18,8 +18,8 @@ def build_debt_schedule(df, forecast):
     std_ratio = np.clip(std_ratio, 0, 1)
 
     #It captures residual financing flows not explicitly modeled (FX, leases, timing differences), scaled to revenue.
-    debt_adjustment_hist = (df["TotalDebt"].diff() - (df["DebtIssued"] + df["Repayment"]))
-    dadj_ratio = (debt_adjustment_hist / df["Revenue"]).mean()
+    df["DebtAdjustment"] = df["TotalDebt"].diff() - (df["DebtIssued"] + df["Repayment"])
+    dadj_ratio = (df["DebtAdjustment"] / df["Revenue"]).mean()
     forecast["DebtAdjustment"] = forecast["Revenue"] * dadj_ratio
 
     target_hist = df["EBITDA"] * target_leverage
