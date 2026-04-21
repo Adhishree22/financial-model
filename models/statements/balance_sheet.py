@@ -21,8 +21,8 @@ def build_balance_sheet(df, forecast):
     dt_list.append(opening)
 
   forecast["NonCurrentDeferredLiabilities"] = dt_list
-
-	forecast = forecast.round(0)
+  
+  forecast = forecast.round(0)
 	
   forecast["TotalAssets"] = (
       forecast["CurrentAssets"]
