@@ -30,7 +30,7 @@ def build_cash_balance(df, forecast):
         forecast.loc[year, "OperatingCashFlow"]
         + forecast.loc[year, "InvestingCashFlow"]
         + forecast.loc[year, "FinancingCashFlow"]
-        + forecast["FX"].loc[year]
+        + forecast.loc[year, "FX"]
     )
 
     closing_cash = opening_cash + change_cash
