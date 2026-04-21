@@ -30,6 +30,6 @@ def build_eps(df, forecast):
 
   forecast = forecast.round(0)
 
-  forecast["EPS"] = (forecast["NetIncomeCommon"] * scale) / forecast["Shares"]
+  forecast["EPS"] = round(((forecast["NetIncomeCommon"] * scale)/ forecast["Shares"]),2)
 
   return forecast
