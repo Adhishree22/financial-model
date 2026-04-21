@@ -9,7 +9,7 @@ def safe_get(df, column, default=0):
   return df[column] if column in df.columns else default
 
 def build_historical_df(income, balance, cashflow, price_data):
-  
+
   df = pd.DataFrame()
 
   #Income Statement
@@ -33,7 +33,7 @@ def build_historical_df(income, balance, cashflow, price_data):
   df["OperatingGainsLosses"] = safe_get(cashflow, "Operating Gains Losses").fillna(
       safe_get(cashflow, "Operating Gains Losses").tail(3).mean()
   ) / Scale
-	
+
 	#CashFlowInvesting
   df["InvestingCashFlow"] = safe_get(cashflow, "Investing Cash Flow").ffill() / Scale
   df["NetInvestmentPurchaseAndSale"] = safe_get(cashflow, "Net Investment Purchase And Sale").ffill() / Scale
@@ -41,13 +41,13 @@ def build_historical_df(income, balance, cashflow, price_data):
   df["NetOtherInvestingChanges"] = safe_get(cashflow, "Net Other Investing Changes").fillna(
       safe_get(cashflow, "Net Other Investing Changes").tail(3).mean()
   ) / Scale
-	
+
 	#CashFlowFinancing
   df["FinancingCashFlow"] = safe_get(cashflow, "Financing Cash Flow").ffill() / Scale
   df["NetOtherFinancingCharges"] = safe_get(cashflow, "Net Other Financing Charges").fillna(
       safe_get(cashflow, "Net Other Financing Charges").tail(3).mean()
   ) / Scale
-	
+
 	#Cash Flow
   df["FreeCashFlow"] = safe_get(cashflow, "Free Cash Flow").ffill() / Scale
   df["BeginningCash"] = safe_get(cashflow, "Beginning Cash Position").ffill() / Scale
@@ -65,7 +65,7 @@ def build_historical_df(income, balance, cashflow, price_data):
   df["TotalAssets"] = safe_get(balance, "Total Assets").ffill() / Scale
   df["OtherNonCurrentAssets"] = safe_get(balance, "Other Non Current Assets").ffill() / Scale
   df["InvestmentsAndAdvances"] = safe_get(balance, "Investments And Advances").ffill() / Scale
-	
+
 	#Liabilities
   df["TotalLiabilities"] = safe_get(balance, "Total Liabilities Net Minority Interest").ffill() / Scale
   df["NonCurrentDeferredLiabilities"] = safe_get(balance, "Non Current Deferred Liabilities").ffill() / Scale
@@ -102,7 +102,7 @@ def build_historical_df(income, balance, cashflow, price_data):
   df["Receivables"] = safe_get(balance, "Receivables").ffill() / Scale
   df["RestrictedCash"] = safe_get(balance, "Restricted Cash").ffill() / Scale
   df["OtherCurrentAssets"] = safe_get(balance, "Other Current Assets").ffill() / Scale
-	
+
 	#Current Liabilities
   df["CurrentLiabilities"] = safe_get(balance, "Current Liabilities").ffill() / Scale
   df["PayablesAndAccruedExpenses"] = safe_get(balance, "Payables And Accrued Expenses").ffill() / Scale
@@ -123,12 +123,13 @@ def build_historical_df(income, balance, cashflow, price_data):
 
   df = df.join(driver_data)
   df = df.round(0)
-	
+
   #Closing Prices
   september_prices = price_data[price_data.index.month == 9]["Close"]
   sept_closing = september_prices.groupby(september_prices.index.year).last()
 
-  df["Closing"] = sept_closing.reindex(df.index.year).values
+  df["Closing"] = sept_closing.reindex(df.index.year).round(2).values
+
 
   #EPS
   df["PreferredStockDividend"] = safe_get(income, "Otherunder Preferred Stock Dividend").ffill() / Scale
