@@ -5,13 +5,13 @@ import pandas as pd
 def build_balance_sheet(df, forecast):
   
   inva_ratio = (df["InvestmentsAndAdvances"] / df["Revenue"]).tail(3).mean()
-	forecast["InvestmentsAndAdvances"] = forecast["Revenue"] * inva_ratio
-	
-	onca_ratio = (df["OtherNonCurrentAssets"] / df["Revenue"]).median()
-	forecast["OtherNonCurrentAssets"] = forecast["Revenue"] * onca_ratio
-	
-	oncl_ratio = (df["OtherNonCurrentLiabilities"] / df["Revenue"]).median()
-	forecast["OtherNonCurrentLiabilities"] = forecast["Revenue"] * oncl_ratio
+  forecast["InvestmentsAndAdvances"] = forecast["Revenue"] * inva_ratio
+  
+  onca_ratio = (df["OtherNonCurrentAssets"] / df["Revenue"]).median()
+  forecast["OtherNonCurrentAssets"] = forecast["Revenue"] * onca_ratio
+  
+  oncl_ratio = (df["OtherNonCurrentLiabilities"] / df["Revenue"]).median()
+  forecast["OtherNonCurrentLiabilities"] = forecast["Revenue"] * oncl_ratio
   
   opening = df["NonCurrentDeferredLiabilities"].iloc[-1]
   
