@@ -4,7 +4,7 @@ import pandas as pd
 
 def build_working_capital(df, forecast):
   
-  df["CashAdjustment"] = (df["CashAndCashEquivalents"] +df["OtherShortTermInvestments"]) - df["EndingCash"])
+  df["CashAdjustment"] = (df["CashAndCashEquivalents"] +df["OtherShortTermInvestments"]) - df["EndingCash"]
   
   total_ratio = ((df["CashAndCashEquivalents"] +df["OtherShortTermInvestments"]) / df["EndingCash"]).replace([np.inf, -np.inf], np.nan).median()
   cash_split = (df["CashAndCashEquivalents"] / (df["CashAndCashEquivalents"] +df["OtherShortTermInvestments"])).replace([np.inf, -np.inf], np.nan).median()
