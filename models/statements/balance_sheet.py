@@ -39,15 +39,15 @@ def build_balance_sheet(df, forecast):
       + forecast["OtherNonCurrentLiabilities"]
       + forecast["NonCurrentDeferredLiabilities"]
   )
-
-	df["BalanceSheetAdjustment"] = df["Equity"] + df["TotalLiabilities"] - df["TotalAssets"]
-	forecast["BalanceSheetAdjustment"] = (forecast["Equity"] + forecast["TotalLiabilities"] - forecast["TotalAssets"])
-
+  
+  df["BalanceSheetAdjustment"] = df["Equity"] + df["TotalLiabilities"] - df["TotalAssets"]
+  forecast["BalanceSheetAdjustment"] = (forecast["Equity"] + forecast["TotalLiabilities"] - forecast["TotalAssets"])
+  
   return forecast
 
 
 def sanity_check(df,forecast):
-
+  
   df["Check"] = df["Equity"] + df["TotalLiabilities"] - ( df["TotalAssets"] + df["BalanceSheetAdjustment"])
   forecast["Check"] = forecast["Equity"] + forecast["TotalLiabilities"] - (forecast["TotalAssets"] + forecast["BalanceSheetAdjustment"])
   forecast["Check"] = forecast["Check"].apply(lambda x: 0 if np.isclose(x, 0, atol=1) else x)
