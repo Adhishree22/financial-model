@@ -58,7 +58,7 @@ def compute_incremental_margins(full_df,ratios_df):
   return ratios_df
 
 
-def build_ratios(full_df,forecast_index):
+def build_ratios_profitability(full_df,forecast_index):
   
   ratios_df = initialize_ratios(full_df,forecast_index)
 
