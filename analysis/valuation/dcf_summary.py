@@ -28,11 +28,13 @@ def build_valuation_summary(results_df, df, valuation_df):
 
   summary["Upside_DCF%"] = (dcf_price / current_price - 1) * 100
   summary["Upside_Blended%"] = (blended_price / current_price - 1) * 100
-
+  summary["DCF_vs_Blended_%"] = ((dcf_price / blended_price - 1) * 100
+                                 
   summary["Weighted_DCF_Price"] = weighted_dcf_price
   summary["Upside_Weighted_DCF%"] = (weighted_dcf_price / current_price - 1) * 100
 
   summary["Target_Price"] = target_price
   summary["Upside_Target%"] = (target_price / current_price - 1) * 100
 
+  summary = summary.round(2).T
   return summary.round(2).T
