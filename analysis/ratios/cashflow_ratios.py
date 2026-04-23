@@ -20,12 +20,7 @@ def build_cashflow_ratios(full_df, ratios_df):
   ratios_df["Capex_Coverage"] = full_df["OperatingCashFlow"] / abs(full_df["Capex"])
 
   # Per Share
-  ratios_df["FCF_per_Share"] = (full_df["FreeCashFlow"] * 1000000) / full_df["Shares"]
-
-  ratios_df = ratios_df.round(2)
-  ratios_df[["FCF_to_Revenue","OCF_to_Revenue","Capex_to_Revenue","FCF_Conversion","FCF_to_EBITDA","OCF_to_NetIncome",
-             "Cash_Conversion","Capex_Coverage","FCF_per_Share"]].T
-		   
+  ratios_df["FCF_per_Share"] = (full_df["FreeCashFlow"] * 1000000) / full_df["Shares"]  
 		   
   ratios_df.replace([np.inf, -np.inf], np.nan, inplace=True)
 	ratios_df = ratios_df.round(2)
