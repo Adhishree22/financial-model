@@ -3,19 +3,19 @@ import numpy as np
 import pandas as pd
 
 def run_fcf_yield_valuation(fcf_series, hist_df, forecast, name = "FCF_Yield"):
-  
+
   historical = pd.DataFrame(index=hist_df.index)
   forecast_df = pd.DataFrame(index=forecast.index)
 
   w_bear, w_base, w_bull = 0.25, 0.5, 0.25
-  
+
   scale = 1000000
   market_hist = (hist_df["Closing"] * hist_df["Shares"]).round(2)
 
   fcf_hist = fcf_series.reindex(hist_df.index)
   fcf_fore = fcf_series.reindex(forecast.index)
 
-  historical[name] = (fcf_hist * scale / market_hist)
+  historical[name] = (fcf_hist * scale / market_hist).round(4)
 
   low = historical[name].rolling(3, min_periods=1).quantile(0.25)
   high = historical[name].rolling(3, min_periods=1).quantile(0.75)

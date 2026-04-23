@@ -45,7 +45,7 @@ def run_dividend_yield_valuation(dps_series, hist_df, forecast, name = "Div_Yiel
         forecast_df["Price_Base"] * w_base +
         forecast_df["Price_High"] * w_bull
     )
-	
+
     current_price = hist_df["Closing"].iloc[-1]
 
     historical["Expected_Return_%"] = np.nan
