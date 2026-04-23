@@ -13,7 +13,8 @@ def build_diagnostics(valuation_df, df, forecast):
       "Expected_Return_EV_EBITDA%", "Valuation_Gap_EV_EBITDA%",
       "Expected_Return_EV_Revenue%","Valuation_Gap_EV_Revenue%",
       "Expected_Return_EV_EBIT%", "Valuation_Gap_EV_EBIT%",
-      "Expected_Return_FCF_Yield%", "Valuation_Gap_FCF_Yield%"
+      "Expected_Return_FCF_Yield%", "Valuation_Gap_FCF_Yield%",
+      "Expected_Return_Div_Yield%","Valuation_Gap_Div_Yield%"
   ]].copy()
 
   diagnostic_df["Valuation_Gap_Hist%"] = np.nan
