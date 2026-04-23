@@ -2,8 +2,8 @@
 import numpy as np
 import pandas as pd
 
-def initialize_ratios(full_df,forecast_index):
-  
+def initialize_profitability_ratios(full_df,forecast_index):
+
   ratios_df = pd.DataFrame(index=full_df.index)
 
   # Core profitability margins
@@ -21,18 +21,18 @@ def initialize_ratios(full_df,forecast_index):
   # Cost structure
   ratios_df["Cost_Margin%"] = (full_df["CostOfRevenue"] / full_df["Revenue"]) * 100
   ratios_df["Opex_Margin%"] = (full_df["OperatingExpense"] / full_df["Revenue"]) * 100
-  
+
   #Margin drift
   for col in ['OperatingMargin', 'EBITDAMargin', 'GrossMargin']:
     for year in forecast_index:
       ratios_df.loc[year, col] = ratios_df.loc[year - 1, col] * 1.002
-      
+
   return ratios_df
 
 
 
 def compute_margin_changes(ratios_df):
-  
+
   ratios_df["Net_Margin_Change"] = ratios_df['NetProfitMargin'].diff()
   ratios_df["Operating_Margin_Change"] = ratios_df['OperatingMargin'].diff()
   ratios_df["EBITDA_Margin_Change"] = ratios_df['EBITDAMargin'].diff()
@@ -43,7 +43,7 @@ def compute_margin_changes(ratios_df):
 
 
 def compute_incremental_margins(full_df,ratios_df):
-  
+
   delta_rev = full_df["Revenue"].diff().replace(0, np.nan)
 
   def incremental(metric):
@@ -58,9 +58,9 @@ def compute_incremental_margins(full_df,ratios_df):
   return ratios_df
 
 
-def build_ratios_profitability(full_df,forecast_index):
-  
-  ratios_df = initialize_ratios(full_df,forecast_index)
+def build_profitability_ratios(full_df,forecast_index):
+
+  ratios_df = initialize_profitability_ratios(full_df,forecast_index)
 
   ratios_df = compute_margin_changes(ratios_df)
   ratios_df = compute_incremental_margins(full_df, ratios_df)

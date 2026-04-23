@@ -2,7 +2,7 @@
 import numpy as np
 import pandas as pd
 
-def add_leverage_ratios(full_df, ratios_df):
+def build_leverage_ratios(full_df, ratios_df):
   
   equity = full_df['Equity'].replace(0, np.nan)
   assets = full_df['TotalAssets'].replace(0, np.nan)

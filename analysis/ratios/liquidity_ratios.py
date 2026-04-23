@@ -2,7 +2,7 @@
 import numpy as np
 import pandas as pd
 
-def add_liquidity_ratios(full_df,ratios_df):
+def build_liquidity_ratios(full_df,ratios_df):
   
   # Current Ratio
   ratios_df['CurrentRatio'] = full_df['CurrentAssets'] / full_df['CurrentLiabilities'].replace(0, np.nan)
