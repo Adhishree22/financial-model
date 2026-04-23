@@ -23,6 +23,6 @@ def build_cashflow_ratios(full_df, ratios_df):
   ratios_df["FCF_per_Share"] = (full_df["FreeCashFlow"] * 1000000) / full_df["Shares"]  
 		   
   ratios_df.replace([np.inf, -np.inf], np.nan, inplace=True)
-	ratios_df = ratios_df.round(2)
+  ratios_df = ratios_df.round(2)
 	
   return ratios_df
