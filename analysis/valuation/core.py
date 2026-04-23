@@ -15,11 +15,10 @@ def run_valuation_scenario(hist_series, driver_series,hist_df, forecast_df, name
   driver_fore = driver_series.reindex(forecast_df.index)
 
   def get_bands(series):
-    return (
-        series.rolling(3, min_periods=1).quantile(0.25),
-        series.rolling(3, min_periods=1).median(),
-        series.rolling(3, min_periods=1).quantile(0.75)
-        )
+    low = series.rolling(3, min_periods=1).quantile(0.25)
+    base = series.rolling(3, min_periods=1).median()
+    high = series.rolling(3, min_periods=1).quantile(0.75)
+    return low, base, high
     
   if equity:
     
@@ -45,7 +44,7 @@ def run_valuation_scenario(hist_series, driver_series,hist_df, forecast_df, name
   else:
     
     historical_ratios["EV"] = hist_series
-    historical_ratios["Multiple"] = hist_series / (driver_hist * scale)
+    historical_ratios["Multiple"] = (hist_series / (driver_hist * scale)).round(2)
 
     low, base, high = get_bands(historical_ratios["Multiple"])
 
@@ -70,8 +69,8 @@ def run_valuation_scenario(hist_series, driver_series,hist_df, forecast_df, name
 
     forecast_ratios["Multiple"] = np.linspace(start * 0.95, target, len(forecast_df))
 
-    recent = historical_ratios["Multiple"].tail(3)
-    low_f, base_f, high_f = recent.quantile(0.25), recent.median(), recent.quantile(0.75)
+    recent = historical_ratios["Multiple"].tail(3).sort_values()
+    low_f, base_f, high_f = recent.iloc[0], recent.iloc[1], recent.iloc[2]
 
     forecast_ratios["EV_Low"] = driver_fore * scale * low_f
     forecast_ratios["EV_Base"] = driver_fore * scale * base_f

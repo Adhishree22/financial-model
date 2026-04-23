@@ -6,7 +6,7 @@ def run_equity_valuation(df, forecast, full_df):
   valuation_df = pd.DataFrame()
   
   #P/E ratio (Price / Earnings)
-  pe = df["Closing"] / df["EPS"]
+  pe = (df["Closing"] / df["EPS"]).round(2)
   eps_series = full_df["EPS"]
   pe_df = run_valuation_scenario(pe, eps_series, df, forecast, "PE", True)
   pe_df["EPS"] = eps_series
