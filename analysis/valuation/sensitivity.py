@@ -7,6 +7,7 @@ def build_dcf_sensitivity(fcf, wacc, terminal_growth, net_debt, shares):
   base_wacc = wacc
   base_growth = terminal_growth
 
+  fcf = np.array(fcf)
   n = len(fcf)
   years = np.arange(1, n + 1)
   
