@@ -12,7 +12,7 @@ def build_quality_score(ratios_df):
       0.25 * normalize(ratios_df["NetProfitMargin"], hist["NetProfitMargin"]) +
       0.25 * normalize(ratios_df["OperatingMargin"], hist["OperatingMargin"]) +
       0.25 * normalize(ratios_df["EBITDAMargin"], hist["EBITDAMargin"]) +
-      0.25 * normalize(ratios_df["GrossMargin"], hist["GrossMargin"])
+      0.25 * normalize(ratios_df["GrossMargin"],hist["GrossMargin"])
   )
 
   quality_df["Return_Quality"] = (
@@ -39,7 +39,13 @@ def build_quality_score(ratios_df):
       0.25 * normalize(ratios_df["InterestCoverage"], hist["InterestCoverage"]) +
       0.25 * normalize(1 / ratios_df["NetDebtToEBITDA"].replace(0, np.nan), 1 / hist["NetDebtToEBITDA"].replace(0, np.nan))
   )
-  
+
+  quality_df["Profitability_Quality"] = quality_df["Profitability_Quality"].clip(0, 1)
+  quality_df["Return_Quality"] = quality_df["Return_Quality"].clip(0, 1)
+  quality_df["Cash_Quality"] = quality_df["Cash_Quality"].clip(0, 1)
+  quality_df["Efficiency_Quality"] = quality_df["Efficiency_Quality"].clip(0, 1)
+  quality_df["BalanceSheet_Quality"] = quality_df["BalanceSheet_Quality"].clip(0, 1)
+
   quality_df.replace([np.inf, -np.inf], np.nan, inplace=True)
   quality_df.fillna(quality_df.mean(), inplace=True)
 
