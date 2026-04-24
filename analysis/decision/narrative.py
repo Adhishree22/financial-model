@@ -3,38 +3,39 @@ def build_investment_thesis(decision_df,results_df):
   
   catalysts = []
   risks = []
-	
+  row = decision_df.iloc[0]
+
 	# Strong upside
-  if decision_df["Upside_Target%"] > 25:
-    catalysts.append(f"Strong valuation upside (~{round(decision_df['upside_target'],1)}%)")
+  if row["Upside_Target%"] > 25:
+    catalysts.append(f"Strong valuation upside (~{round(row["Upside_Target%"],1)}%)")
 		
 	# Improving business quality
-  if decision_df["Terminal_Quality"] > decision_df["Base_Quality"]:
+  if row["Terminal_Quality"] > row["Base_Quality"]:
     catalysts.append("Improving business quality over time")
 		
   # Risk improving
-  if decision_df["Terminal_Risk"] < decision_df["Base_Risk"]:
+  if row["Terminal_Risk"] < row["Base_Risk"]:
     catalysts.append("Declining risk profile")
      
 	# Growth acceleration signal 
-  if decision_df["Terminal_Growth"] > decision_df["Base_Growth"]:
+  if row["Terminal_Growth"] > row["Base_Growth"]:
     catalysts.append("Potential growth acceleration")
     
 	# Valuation convergence
-  if decision_df["Upside_Blended%"] > 20:
+  if row["Upside_Blended%"] > 20:
     catalysts.append("Valuation multiple expansion potential")
 
     
 	# Weak base quality
-  if decision_df["Base_Quality"] < 55:
+  if row["Base_Quality"] < 55:
     risks.append("Moderate/weak current business quality")
     
 	# Weak growth
-  if decision_df["Base_Growth"] < 50:
+  if row["Base_Growth"] < 50:
     risks.append("Suboptimal growth profile")
     
 	# High current risk
-  if decision_df["Base_Risk"] > 50:
+  if row["Base_Risk"] > 50:
     risks.append("Elevated current risk levels")
 
   # DCF dependency
@@ -44,7 +45,7 @@ def build_investment_thesis(decision_df,results_df):
     risks.append("High dependence on terminal value assumptions")
     
 	# Overvaluation risk
-  if decision_df["Upside_DCF%"] < 10:
+  if row["Upside_DCF%"] < 10:
     risks.append("Limited margin of safety")
 
   decision_df["Catalysts"] = ", ".join(catalysts)
