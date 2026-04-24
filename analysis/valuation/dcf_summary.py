@@ -1,4 +1,7 @@
 
+import numpy as np
+import pandas as pd
+
 def build_valuation_summary(results_df, df, valuation_df):
   
   dcf_price = results_df.loc["Base", "Price"]
