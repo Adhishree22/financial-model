@@ -2,26 +2,27 @@
 import pandas as pd
 import numpy as np
 
-def build_dcf_sensitivity(fcf, wacc, terminal_growth, years, net_debt, shares):
+def build_dcf_sensitivity(fcf, wacc, terminal_growth, net_debt, shares):
   
-  fcf = np.array(fcf)
+  base_wacc = wacc
+  base_growth = terminal_growth
+
   n = len(fcf)
-
+  years = np.arange(1, n + 1)
+  
   # Ranges
-  wacc_range = np.linspace(wacc - 0.01, wacc + 0.01, 5)
-  growth_range = np.linspace(terminal_growth - 0.01, terminal_growth + 0.01, 5)
+  wacc_range = np.linspace(base_wacc - 0.01, base_wacc + 0.01, 5)
+  growth_range = np.linspace(base_growth - 0.01, base_growth + 0.01, 5)
 
-  sensitivity_table = pd.DataFrame(
-      index=np.round(wacc_range, 4),
-      columns=np.round(growth_range, 4)
-  )
+  sensitivity_table = pd.DataFrame(index=np.round(wacc_range,4),
+                                 columns=np.round(growth_range,4))
 
   for r in wacc_range:
     for g in growth_range:
       
       # Avoid invalid case
       if r <= g:
-        sensitivity_table.loc[round(r, 4), round(g, 4)] = np.nan
+        sensitivity_table.loc[round(r,4), round(g,4)] = np.nan
         continue
 
       # Discount FCF
