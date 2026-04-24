@@ -111,7 +111,7 @@ def build_decision(quality_df, growth_score_df, risk_df, valuation_summary, resu
   decision_df["Bear_Price"] = bear_price
   decision_df["Bull_Price"] = bull_price
   decision_df["Blended_Price"] = blended_price
-  decision_df["Market_Price"] = current_price
+  decision_df["Market_Price"] = market_price
   decision_df["Weighted_Price"] = weighted_price
   decision_df["Target_Price"] = target_price
 
