@@ -38,8 +38,8 @@ def build_investment_thesis(decision_df,results_df):
     risks.append("Elevated current risk levels")
 
   # DCF dependency
-	terminal_weight = results_df.loc["Base", "TerminalWeight"]
-	
+  terminal_weight = results_df.loc["Base", "TerminalWeight"]
+  
   if decision_df["terminal_weight"] > 0.85:
     risks.append("High dependence on terminal value assumptions")
     
@@ -47,7 +47,7 @@ def build_investment_thesis(decision_df,results_df):
   if decision_df["upside_dcf"] < 10:
     risks.append("Limited margin of safety")
 
-  return {
-      "catalysts": ", ".join(catalysts),
-      "risks": ", ".join(risks)
-  }
+  decision_df["Catalysts"] = ", ".join(catalysts)
+  decision_df["Risks"] = ", ".join(risks)
+
+  return decision_df
