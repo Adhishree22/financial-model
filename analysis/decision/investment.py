@@ -25,7 +25,7 @@ def upside_to_score(upside):
   return np.clip(upside * 2, 0, 100)
 
 
-def build_decision(quality_df, growth_score_df, risk_df, valuation_summary, results_df, df):
+def build_decision(quality_df, growth_score_df, risk_df, valuation_summary, results_df, df, terminal_growth):
   
   base_year=2025
   terminal_year=2030
