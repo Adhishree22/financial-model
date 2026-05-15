@@ -72,7 +72,7 @@ def export_for_tableau(
   historical_skip = ['Closing', 'Shares', 'EPS', 'Check']
   exported["historical_data"] = export_single_dataframe(historical_data, "historical_data", historical_skip)
 
-  full_skip = ['Closing', 'Shares', 'EPS', 'Check']
+  full_skip = ['Closing', 'Shares', 'EPS', 'Check',"DPS"]
   exported["full_df"] = export_single_dataframe(full_df, "full_df", full_skip)
 
   exported["growth_df"] = export_single_dataframe(growth_df, "growth_df")
