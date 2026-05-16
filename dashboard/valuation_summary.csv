@@ -1,2 +1,2 @@
-DCF_Price,Market_Price,Blended_Price,Upside_DCF%,Upside_Blended%,DCF_vs_Blended_%,Weighted_DCF_Price,Upside_Weighted_DCF%,Target_Price,Upside_Target%
-483.04,339.3,470.06,42.36,38.54,2.76,501.56,47.82,459.66,35.47
+Year,Scenario,DCF_Price,Market_Price,Blended_Price,Upside_DCF%,Upside_Blended%,DCF_vs_Blended_%,Weighted_DCF_Price,Upside_Weighted_DCF%,Target_Price,Upside_Target%
+0,Valuation,483.04,339.3,470.06,42.36,38.54,2.76,501.56,47.82,459.66,35.47
