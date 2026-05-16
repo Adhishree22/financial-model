@@ -5,18 +5,18 @@ import pandas as pd
 Scale = 1000000
 
 def scale_numeric_columns(df, skip_cols):
+  
+  df = df.copy()
 
-    df = df.copy()
+  numeric_cols = [
+      col for col in df.columns
+      if col not in skip_cols
+      and pd.api.types.is_numeric_dtype(df[col])
+  ]
 
-    numeric_cols = [
-        col for col in df.columns
-        if col not in skip_cols
-        and pd.api.types.is_numeric_dtype(df[col])
-    ]
+  df[numeric_cols] = df[numeric_cols] * Scale
 
-    df[numeric_cols] = df[numeric_cols] * Scale
-
-    return df
+  return df
 
 
 def sort_dataframe(df):
@@ -35,21 +35,23 @@ def sort_dataframe(df):
 
 
 def prepare_year_column(df):
+  
+  df = df.copy()
+  
+  if pd.api.types.is_integer_dtype(df.index):
+    
+    df = df.reset_index()
 
-    df = df.copy()
+    # Rename created index column to Year
+    df.rename(columns={"index": "Year"}, inplace=True)
+		
+  # If DatetimeIndex exists
+  elif isinstance(df.index, pd.DatetimeIndex):
+    
+    df["Year"] = df.index.year
+    df = df.reset_index(drop=True)
 
-    # If index itself is Year
-    if df.index.name == "Year":
-
-        df = df.reset_index()
-
-    # If DatetimeIndex exists
-    elif isinstance(df.index, pd.DatetimeIndex):
-
-        df["Year"] = df.index.year
-        df = df.reset_index(drop=True)
-
-    return df
+  return df
 	
 	
 def export_single_dataframe(df, filename, skip_cols=None):
