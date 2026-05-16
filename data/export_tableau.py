@@ -4,12 +4,9 @@ import pandas as pd
 
 Scale = 1000000
 
-def scale_numeric_columns(df, skip_cols=None):
+def scale_numeric_columns(df, skip_cols):
 
     df = df.copy()
-
-    if skip_cols is None:
-        skip_cols = []
 
     numeric_cols = [
         col for col in df.columns
@@ -61,8 +58,8 @@ def export_single_dataframe(df, filename, skip_cols=None):
   if skip_cols is None:
     skip_cols = []
 	
-  df = prepare_year_column(df)
   df = scale_numeric_columns(df, skip_cols)
+  df = prepare_year_column(df)
   df = sort_dataframe(df)
 
   path = f"dashboard/{filename}.csv"
@@ -94,37 +91,46 @@ def export_for_tableau(
 
   exported = {}
 
-  historical_skip = ['Closing', 'Shares', 'EPS', 'Check']
+  historical_skip = ['Year','Closing', 'Shares', 'EPS', 'Check']
   exported["historical_data"] = export_single_dataframe(historical_data, "historical_data", historical_skip)
 
   full_skip = ['Closing', 'Shares', 'EPS', 'Check',"DPS"]
   exported["full_df"] = export_single_dataframe(full_df, "full_df", full_skip)
+  
+  growth_skip = growth_df.columns.to_list()
+  exported["growth_df"] = export_single_dataframe(growth_df, "growth_df", growth_skip)
+  
+  ratios_skip = ratios_df.columns.to_list()
+  exported["ratios_df"] = export_single_dataframe(ratios_df, "ratios_df", ratios_skip)
+  
+  val_skip = valuation_df.columns.to_list()
+  exported["valuation_df"] = export_single_dataframe(valuation_df, "valuation_df",val_skip)
+  
+  diag_skip = diagnostic_df.columns.to_list()
+  exported["diagnostic_df"] = export_single_dataframe( diagnostic_df, "diagnostic_df", diag_skip)
+  
+  results_skip = results_df.columns.to_list()
+  exported["results_df"] = export_single_dataframe(results_df, "results_df", results_skip)
+  
+  valsum_skip = valuation_summary.columns.to_list()
+  exported["valuation_summary"] = export_single_dataframe(valuation_summary, "valuation_summary", valsum_skip)
+  
+  sens_skip = sensitivity_table.columns.to_list()
+  exported["sensitivity_table"] = export_single_dataframe(sensitivity_table, "sensitivity_table",sens_skip)
 
-  exported["growth_df"] = export_single_dataframe(growth_df, "growth_df")
-
-  exported["ratios_df"] = export_single_dataframe(ratios_df, "ratios_df")
-
-  exported["valuation_df"] = export_single_dataframe(valuation_df, "valuation_df")
-
-  exported["diagnostic_df"] = export_single_dataframe( diagnostic_df, "diagnostic_df")
-
-  exported["results_df"] = export_single_dataframe(results_df, "results_df")
-
-  exported["valuation_summary"] = export_single_dataframe(valuation_summary, "valuation_summary")
-
-  exported["sensitivity_table"] = export_single_dataframe(sensitivity_table, "sensitivity_table")
-
-  exported["quality_df"] = export_single_dataframe(quality_df, "quality_df")
-	
-  exported["risk_df"] = export_single_dataframe(risk_df, "risk_df")
-
-  exported["growth_score_df"] = export_single_dataframe(growth_score_df, "growth_score_df")
-
-  exported["composite_df"] = export_single_dataframe(composite_df, "composite_df")
-
-  exported["decision_df"] = export_single_dataframe(decision_df, "decision_df")
-
-  exported["driver_scenario_df"] = export_single_dataframe(driver_scenario_df, "driver_scenario_df")
+  score_df = pd.merge(quality_df,risk_df, left_index=True,right_index=True)
+  score_df = pd.merge(score_df,growth_score_df, left_index=True,right_index=True)
+  score_df = pd.merge(score_df,composite_df, left_index=True,right_index=True)
+  score_df = score_df.loc[:, ~score_df.columns.str.endswith('_y')]
+  score_df.columns = [col.replace('_x', '') for col in score_df.columns]
+  score_skip = score_df.columns.to_list()
+  exported["score_df"] = export_single_dataframe(score_df, "score_df", score_skip)
+  
+  decision_skip = decision_df.columns.to_list()
+  exported["decision_df"] = export_single_dataframe(decision_df, "decision_df", decision_skip)
+  
+  driver_skip = driver_scenario_df.columns.to_list()
+  exported["driver_scenario_df"] = export_single_dataframe(driver_scenario_df, "driver_scenario_df", driver_skip)
 
   print("\nAll Tableau exports completed successfully.")
 
