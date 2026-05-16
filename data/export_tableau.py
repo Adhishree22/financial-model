@@ -1,5 +1,4 @@
 
-
 import pandas as pd
 
 Scale = 1000000
@@ -107,11 +106,11 @@ def export_for_tableau(
   diag_skip = diagnostic_df.columns.to_list()
   exported["diagnostic_df"] = export_single_dataframe( diagnostic_df, "diagnostic_df", diag_skip)
   
+  results_df = results_df.reset_index()
+  results_df.rename(columns={results_df.columns[0]: "Scenario"}, inplace=True)
   results_skip = results_df.columns.to_list()
   exported["results_df"] = export_single_dataframe(results_df, "results_df", results_skip)
   
-  valuation_summary = valuation_summary.reset_index()
-  valuation_summary.rename(columns={valuation_summary.columns[0]: "Scenario"}, inplace=True)	
   valsum_skip = valuation_summary.columns.to_list()
   exported["valuation_summary"] = export_single_dataframe(valuation_summary, "valuation_summary", valsum_skip)
   
