@@ -1,4 +1,5 @@
 
+
 import pandas as pd
 
 Scale = 1000000
@@ -110,12 +111,12 @@ def export_for_tableau(
   exported["results_df"] = export_single_dataframe(results_df, "results_df", results_skip)
   
   valuation_summary = valuation_summary.reset_index()
-  valuation_summary.rename(columns={"index": "Scenario"}, inplace=True)	
+  valuation_summary.rename(columns={valuation_summary.columns[0]: "Scenario"}, inplace=True)	
   valsum_skip = valuation_summary.columns.to_list()
   exported["valuation_summary"] = export_single_dataframe(valuation_summary, "valuation_summary", valsum_skip)
   
   sensitivity_table = sensitivity_table.reset_index()
-  sensitivity_table.rename(columns={"index": "WACC"}, inplace=True)
+  sensitivity_table.rename(columns={sensitivity_table.columns[0]: "WACC"}, inplace=True)
   sensitivity_table = sensitivity_table.melt(
       id_vars="WACC",
       var_name="TerminalGrowth",
