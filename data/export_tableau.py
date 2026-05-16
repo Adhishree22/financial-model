@@ -1,19 +1,25 @@
 
+
 import pandas as pd
 
-def scale_numeric_columns(df, skip_cols):
-  
-  df = df.copy()
+Scale = 1000000
 
-  numeric_cols = [
-      c for c in df.columns
-      if c not in skip_cols
-      and pd.api.types.is_numeric_dtype(df[c])
-  ]
+def scale_numeric_columns(df, skip_cols=None):
 
-  df[numeric_cols] = df[numeric_cols] * 1000000
+    df = df.copy()
 
-  return df
+    if skip_cols is None:
+        skip_cols = []
+
+    numeric_cols = [
+        col for col in df.columns
+        if col not in skip_cols
+        and pd.api.types.is_numeric_dtype(df[col])
+    ]
+
+    df[numeric_cols] = df[numeric_cols] * Scale
+
+    return df
 
 
 def sort_dataframe(df):
@@ -31,12 +37,31 @@ def sort_dataframe(df):
   return df
 
 
+def prepare_year_column(df):
+
+    df = df.copy()
+
+    # If index itself is Year
+    if df.index.name == "Year":
+
+        df = df.reset_index()
+
+    # If DatetimeIndex exists
+    elif isinstance(df.index, pd.DatetimeIndex):
+
+        df["Year"] = df.index.year
+        df = df.reset_index(drop=True)
+
+    return df
+	
+	
 def export_single_dataframe(df, filename, skip_cols=None):
 
   # If no skip columns provided
   if skip_cols is None:
     skip_cols = []
-
+	
+  df = prepare_year_column(df)
   df = scale_numeric_columns(df, skip_cols)
   df = sort_dataframe(df)
 
