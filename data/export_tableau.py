@@ -1,22 +1,21 @@
 
-
 import pandas as pd
 
 Scale = 1000000
 
 def scale_numeric_columns(df, skip_cols):
-  
-  df = df.copy()
 
-  numeric_cols = [
-      col for col in df.columns
-      if col not in skip_cols
-      and pd.api.types.is_numeric_dtype(df[col])
-  ]
+    df = df.copy()
 
-  df[numeric_cols] = df[numeric_cols] * Scale
+    numeric_cols = [
+        col for col in df.columns
+        if col not in skip_cols
+        and pd.api.types.is_numeric_dtype(df[col])
+    ]
 
-  return df
+    df[numeric_cols] = df[numeric_cols] * Scale
+
+    return df
 
 
 def sort_dataframe(df):
@@ -27,31 +26,27 @@ def sort_dataframe(df):
   if "Year" in df.columns:
     df = df.sort_values("Year").reset_index(drop=True)
 
-  # If Year exists in index
-  elif df.index.name == "Year":
-    df = df.sort_index().reset_index()
-
   return df
 
 
 def prepare_year_column(df):
-  
-  df = df.copy()
-  
-  if pd.api.types.is_integer_dtype(df.index):
-    
-    df = df.reset_index()
 
-    # Rename created index column to Year
-    df.rename(columns={"index": "Year"}, inplace=True)
+    df = df.copy()
+
+    if pd.api.types.is_integer_dtype(df.index):
+
+        df = df.reset_index()
+
+        # Rename created index column to Year
+        df.rename(columns={"index": "Year"}, inplace=True)
 		
-  # If DatetimeIndex exists
-  elif isinstance(df.index, pd.DatetimeIndex):
-    
-    df["Year"] = df.index.year
-    df = df.reset_index(drop=True)
+    # If DatetimeIndex exists
+    elif isinstance(df.index, pd.DatetimeIndex):
 
-  return df
+        df["Year"] = df.index.year
+        df = df.reset_index(drop=True)
+		
+    return df
 	
 	
 def export_single_dataframe(df, filename, skip_cols=None):
@@ -114,9 +109,18 @@ def export_for_tableau(
   results_skip = results_df.columns.to_list()
   exported["results_df"] = export_single_dataframe(results_df, "results_df", results_skip)
   
+  valuation_summary = valuation_summary.reset_index()
+  valuation_summary.rename(columns={"index": "Scenario"}, inplace=True)	
   valsum_skip = valuation_summary.columns.to_list()
   exported["valuation_summary"] = export_single_dataframe(valuation_summary, "valuation_summary", valsum_skip)
   
+  sensitivity_table = sensitivity_table.reset_index()
+  sensitivity_table.rename(columns={"index": "WACC"}, inplace=True)
+  sensitivity_table = sensitivity_table.melt(
+      id_vars="WACC",
+      var_name="TerminalGrowth",
+      value_name="Price"
+  )
   sens_skip = sensitivity_table.columns.to_list()
   exported["sensitivity_table"] = export_single_dataframe(sensitivity_table, "sensitivity_table",sens_skip)
 
