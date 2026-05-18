@@ -66,6 +66,9 @@ def run_dividend_yield_valuation(dps_series, hist_df, forecast, name = "Div_Yiel
     final = pd.DataFrame(index=output.index)
 
     final[name] = output[name]
+    final[f"Price_Low_{name}"] = output["Price_Low"]
+    final[f"Price_Base_{name}"] = output["Price_Base"]
+    final[f"Price_High_{name}"] = output["Price_High"]
     final[f"Expected_Price_{name}"] = output["Expected_Price"]
     final[f"Expected_Return_{name}%"] = output["Expected_Return_%"]
     final[f"Valuation_Gap_{name}%"] = output["Valuation_Gap_%"]
